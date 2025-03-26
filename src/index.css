@@ -1,0 +1,160 @@
+@import "tailwindcss";
+
+@layer components {
+  .card {
+    @apply bg-white rounded-lg p-4 shadow-[0px_4px_10px_0px_rgba(0,0,0,0.25)] ;
+  }
+
+  .card-header {
+    @apply text-lg font-semibold border-b border-gray-300 p-2;
+  }
+
+  .card-body {
+    @apply p-4 text-gray-700;
+  }
+
+  .card-footer {
+    @apply border-t border-gray-300 p-2 text-right;
+  }
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 7px;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #4a5568; /* Dark Gray */
+    /* border-radius: 4px; */
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background-color: #2d3748; /* Darker Gray */
+  }
+
+  
+/* Custom Scrollbar for Webkit Browsers */
+::-webkit-scrollbar {
+  width: 6px;  /* Width of the scrollbar */
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: #433d6795; /* Track color */
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background:  #332f50f1;/* Scrollbar color */
+  border-radius: 5px;
+  transition: background 5s;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Darker color on hover */
+}
+
+
+
+
+button{
+  cursor: pointer;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;  /* Hide scrollbar for Chrome, Safari */
+}
+
+/* Input fields */
+input[type="text"] {
+  width: 100%;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  display: flex;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.3s ease-in-out;
+}
+input[type="number"] {
+  width: 100%;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  display: flex;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.3s ease-in-out;
+}
+
+input:focus {
+  border-color: #007bff;
+  /* box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); */
+}
+
+/* src/styles/Calendar.css */
+.rbc-calendar {
+  background-color: #ffffff;
+  border-radius: 8px;
+}
+
+.rbc-today {
+  background-color: #f5f5f5;
+}
+
+.rbc-header {
+  background-color: #425086;
+  color: white;
+  padding: 10px;
+  font-weight: 600;
+}
+
+.rbc-event {
+  border-radius: 4px;
+  padding: 4px;
+  font-size: 14px;
+}
+
+.rbc-time-view {
+  background-color: #fafafa;
+}
+
+/* Toolbar Styling */
+.rbc-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.rbc-toolbar-label {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #425086;
+}
+
+.rbc-btn-group {
+  display: flex;
+  gap: 5px;
+}
+
+.rbc-btn {
+  background-color: #8b5e3c;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.rbc-btn:hover {
+  background-color: #6b4a2e;
+}
+
+.rbc-active {
+  background-color: #d4a017; /* Highlight active view */
+}
