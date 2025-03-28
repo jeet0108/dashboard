@@ -237,14 +237,14 @@ const CRM = () => {
     datasets: [
       {
         label: "Sales",
-        data: [12000, 15000, 18000, 16000, 21000, 19000], // Sales data
+        data: [12000, 15000, 18000, 21000, 24000, 27000], // Sales data
         backgroundColor: "rgba(74, 61, 203, 0.8)", // Blue for Sales
         borderColor: "rgba(54, 162, 235, 1)",
         borderWidth: 1,
       },
       {
         label: "Visits",
-        data: [25000, 30000, 28000, 35000, 37000, 40000], // Visits data
+        data: [25000, 30000, 35000, 40000, 45000, 50000], // Visits data
         backgroundColor: "rgba(13, 165, 184, 0.6)", // Red for Visits
         borderColor: "rgba(255, 99, 132, 1)",
         borderWidth: 1,

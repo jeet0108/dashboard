@@ -131,7 +131,7 @@ const ProductList = () => {
       {/* 1st row */}
       <div className="grid grid-cols-12 gap-5">
         {/* In-Store Sales */}
-        <div className="col-span-12 sm:col-span-6 lg:col-span-3">
+        <div className="col-span-12 sm:col-span-6 lg:col-span-3 hover:scale-x-97 transition-all">
           <div className="card h-[120px] p-0 relative">
             <div className="flex justify-between items-center bg-[rgba(74,61,203,0.2)] rounded-t-md py-1 px-2">
               <p className="text-xl font-[500] ms-3">In-Store Sales</p>
@@ -153,7 +153,7 @@ const ProductList = () => {
         </div>
 
         {/* Website Sales */}
-        <div className="col-span-12 sm:col-span-6 lg:col-span-3">
+        <div className="col-span-12 sm:col-span-6 lg:col-span-3 hover:scale-x-97 transition-all">
           <div className="card h-[120px] p-0 relative">
             <div className="flex justify-between items-center bg-[rgba(97,218,251,0.2)] rounded-t-md py-1 px-2">
               <p className="text-xl font-[500] ms-3">Website Sales</p>
@@ -177,7 +177,7 @@ const ProductList = () => {
         </div>
 
         {/* Discount */}
-        <div className="col-span-12 sm:col-span-6 lg:col-span-3">
+        <div className="col-span-12 sm:col-span-6 lg:col-span-3 hover:scale-x-97 transition-all">
           <div className="card h-[120px] p-0 relative">
             <div className="flex justify-between items-center bg-[rgba(254,87,77,0.2)] rounded-t-md py-1 px-2">
               <p className="text-xl font-[500] ms-3">Discount</p>
@@ -198,7 +198,7 @@ const ProductList = () => {
         </div>
 
         {/* Affiliate */}
-        <div className="col-span-12 sm:col-span-6 lg:col-span-3">
+        <div className="col-span-12 sm:col-span-6 lg:col-span-3 hover:scale-x-97 transition-all">
           <div className="card h-[120px] p-0 relative">
             <div className="flex justify-between items-center bg-[rgba(40,199,111,0.2)] rounded-t-md py-1 px-2">
               <p className="text-xl font-[500] ms-3">Affiliate</p>

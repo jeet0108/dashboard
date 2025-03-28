@@ -27,7 +27,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
       <div
         className={`bg-gray-900 text-white ${
           isOpen
-            ? "w-64 h-screen lg:h-screen"
+            ? "w-64 lg:h-screen"
             : "w-16 h-screen"
         } transition-all duration-300 fixed top-0 left-0 z-50 overflow-y-auto custom-scrollbar`}
       >
