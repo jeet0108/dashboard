@@ -34,11 +34,11 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
         {/* Logo & Toggle Button */}
         <div className="bg-gray-900 flex justify-between items-center rounded-b-md border-b-1 sticky top-0 p-2 z-10">
           <div className={`w-[35px] h-auto ${isOpen ? "block" : "hidden"}`}>
-            <img src={logo} alt="logo" />
+            <a href="/Analytics"><img  src={logo} alt="logo" /></a>
           </div>
-          <h2 className={`text-3xl font-bold text-blue-200 font-[Montserrat] ${isOpen ? "block" : "hidden"}`}>
+          <a href="/Analytics" className={`text-3xl font-bold text-blue-200 font-[Montserrat] ${isOpen ? "block" : "hidden"}`}>
             Jeet
-          </h2>
+          </a>
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="p-2 rounded-md hover:bg-gray-700"
@@ -116,7 +116,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
           {/* eCommerce - With Dropdown */}
           <div className="w-full">
             <button
-              className="flex justify-between items-center px-3 py-2 rounded-md transition w-full hover:bg-gray-800"
+              className="flex justify-between items-center gap-3 px-3 py-2 rounded-md transition w-full hover:bg-gray-800"
               onClick={() => setIsEcommerceOpen(!isEcommerceOpen)}
             >
               <div className="flex items-center gap-3">

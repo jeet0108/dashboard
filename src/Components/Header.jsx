@@ -10,6 +10,8 @@ import {
   Cog,
 } from "lucide-react";
 import { useState } from "react";
+import { Link} from "react-router-dom";
+
 
 const Header = ({ isOpen, setIsOpen }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -96,9 +98,11 @@ const Header = ({ isOpen, setIsOpen }) => {
               <button className="block px-4 py-2 w-full text-left rounded-lg hover:bg-gray-700">
                 Settings
               </button>
-              <button className="block px-4 py-2 w-full text-left rounded-lg hover:bg-red-600">
-                Logout
-              </button>
+              <Link to={"/login"}>
+                <button className="block px-4 py-2 w-full text-left rounded-lg hover:bg-red-600">
+                  Logout
+                </button>
+              </Link>
             </div>
           )}
         </div>
