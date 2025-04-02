@@ -1,13 +1,42 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
-  Home, Users, Settings, ChevronDown, ChevronUp, Menu, X, ChevronFirst, LayoutDashboard, Layers, ShoppingCart,
-  BookOpenText, Warehouse, FileArchive, UsersRound, GlobeLock, BookOpenCheck, KeyRound, WandSparkles, Package,
-  WalletCards, Webhook, ChevronsLeftRightEllipsis, Pi, BookCopy, TicketCheck, TableCellsMerge, Grid3x3,
-  TrendingUp, MapPin, CircleHelp, FileDigit, ShoppingBasket,
-  Calendar1
+  Home,
+  Users,
+  Settings,
+  ChevronDown,
+  ChevronUp,
+  Menu,
+  X,
+  ChevronFirst,
+  LayoutDashboard,
+  Layers,
+  ShoppingCart,
+  BookOpenText,
+  Warehouse,
+  FileArchive,
+  UsersRound,
+  GlobeLock,
+  BookOpenCheck,
+  KeyRound,
+  WandSparkles,
+  Package,
+  WalletCards,
+  Webhook,
+  ChevronsLeftRightEllipsis,
+  Pi,
+  BookCopy,
+  TicketCheck,
+  TableCellsMerge,
+  Grid3x3,
+  TrendingUp,
+  MapPin,
+  CircleHelp,
+  FileDigit,
+  ShoppingBasket,
+  Calendar1,
 } from "lucide-react";
-import logo from '../assets/img/logo.png';
+import logo from "../assets/img/logo.png";
 
 const Sidebar = ({ isOpen, setIsOpen }) => {
   const [isDashboardOpen, setIsDashboardOpen] = useState(false);
@@ -16,7 +45,8 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
   const location = useLocation();
 
   const handleMenuClick = () => {
-    if (window.innerWidth < 1100) { // lg breakpoint
+    if (window.innerWidth < 1100) {
+      // lg breakpoint
       setIsOpen(false);
     }
   };
@@ -26,17 +56,22 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
       {/* Sidebar */}
       <div
         className={`bg-gray-900 text-white ${
-          isOpen
-            ? "w-64 lg:h-screen"
-            : "w-16 h-screen"
+          isOpen ? "w-64 lg:h-screen" : "w-16 h-screen"
         } transition-all duration-300 fixed top-0 left-0 z-50 overflow-y-auto custom-scrollbar`}
       >
         {/* Logo & Toggle Button */}
         <div className="bg-gray-900 flex justify-between items-center rounded-b-md border-b-1 sticky top-0 p-2 z-10">
           <div className={`w-[35px] h-auto ${isOpen ? "block" : "hidden"}`}>
-            <a href="/Analytics"><img  src={logo} alt="logo" /></a>
+            <a href="/Analytics">
+              <img src={logo} alt="logo" />
+            </a>
           </div>
-          <a href="/Analytics" className={`text-3xl font-bold text-blue-200 font-[Montserrat] ${isOpen ? "block" : "hidden"}`}>
+          <a
+            href="/Analytics"
+            className={`text-3xl font-bold text-blue-200 font-[Montserrat] ${
+              isOpen ? "block" : "hidden"
+            }`}
+          >
             Jeet
           </a>
           <button
@@ -53,16 +88,26 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
           <div className="w-full">
             <button
               className={`flex justify-between items-center px-3 py-2 rounded-md transition w-full ${
-                location.pathname === "/" ? "bg-blue-600 text-black" : "hover:bg-gray-800"
-              }`} 
-              onClick={() => {setIsDashboardOpen(!isDashboardOpen)
+                location.pathname === "/"
+                  ? "bg-blue-600 text-black"
+                  : "hover:bg-gray-800"
+              }`}
+              onClick={() => {
+                setIsDashboardOpen(!isDashboardOpen);
               }}
             >
               <div className="flex items-center gap-3">
                 <Users size={20} />
-                <span className={`${isOpen ? "block" : "hidden"}`}>Dashboards</span>
+                <span className={`${isOpen ? "block" : "hidden"}`}>
+                  Dashboards
+                </span>
               </div>
-              {isOpen && (isDashboardOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />)}
+              {isOpen &&
+                (isDashboardOpen ? (
+                  <ChevronUp size={18} />
+                ) : (
+                  <ChevronDown size={18} />
+                ))}
             </button>
 
             {isDashboardOpen && isOpen && (
@@ -70,9 +115,13 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
                 <Link to="/analytics">
                   <button
                     className={`flex items-center px-4 py-2 rounded-md transition w-full text-sm ${
-                      location.pathname === "/analytics" ? "bg-blue-500 text-black" : "hover:bg-gray-800"
+                      location.pathname === "/analytics"
+                        ? "bg-blue-500 text-black"
+                        : "hover:bg-gray-800"
                     }`}
-                    onClick={() =>  { handleMenuClick();}}
+                    onClick={() => {
+                      handleMenuClick();
+                    }}
                   >
                     Analytics
                   </button>
@@ -80,10 +129,13 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
                 <Link to="/CRM">
                   <button
                     className={`flex items-center px-4 py-2 rounded-md transition w-full text-sm ${
-                      location.pathname === "/CRM" ? "bg-blue-500 text-black" : "hover:bg-gray-800"
+                      location.pathname === "/CRM"
+                        ? "bg-blue-500 text-black"
+                        : "hover:bg-gray-800"
                     }`}
-                    onClick={() =>  { handleMenuClick();}}
-
+                    onClick={() => {
+                      handleMenuClick();
+                    }}
                   >
                     CRM
                   </button>
@@ -103,14 +155,22 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
 
           {/* Other Menu Items */}
           <Link to={"/Calendar"}>
-            <button className={`flex items-center gap-3 px-3 py-2 rounded-md transition w-full ${location.pathname === "/Calendar" ?"bg-blue-500 text-black" : "hover:bg-gray-800"}`}>
+            <button
+              className={`flex items-center gap-3 px-3 py-2 rounded-md transition w-full ${
+                location.pathname === "/Calendar"
+                  ? "bg-blue-500 text-black"
+                  : "hover:bg-gray-800"
+              }`}
+            >
               <Calendar1 size={20} />
               <span className={`${isOpen ? "block" : "hidden"}`}>Calendar</span>
             </button>
           </Link>
           <button className="flex items-center gap-3 px-3 py-2 rounded-md transition hover:bg-gray-800 w-full">
             <Layers size={20} />
-            <span className={`${isOpen ? "block" : "hidden"}`}>Front Pages</span>
+            <span className={`${isOpen ? "block" : "hidden"}`}>
+              Front Pages
+            </span>
           </button>
 
           {/* eCommerce - With Dropdown */}
@@ -121,9 +181,16 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
             >
               <div className="flex items-center gap-3">
                 <ShoppingCart size={20} />
-                <span className={`${isOpen ? "block" : "hidden"}`}>eCommerce</span>
+                <span className={`${isOpen ? "block" : "hidden"}`}>
+                  eCommerce
+                </span>
               </div>
-              {isOpen && (isEcommerceOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />)}
+              {isOpen &&
+                (isEcommerceOpen ? (
+                  <ChevronUp size={18} />
+                ) : (
+                  <ChevronDown size={18} />
+                ))}
             </button>
 
             {isEcommerceOpen && isOpen && (
@@ -131,10 +198,13 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
                 <Link to="/CRM">
                   <button
                     className={`flex items-center px-4 py-2 rounded-md transition w-full text-sm ${
-                      location.pathname === "/analytics" ? "bg-blue-500 text-black" : "hover:bg-gray-800"
+                      location.pathname === "/analytics"
+                        ? "bg-blue-500 text-black"
+                        : "hover:bg-gray-800"
                     }`}
-                    onClick={() =>  { handleMenuClick();}}
-
+                    onClick={() => {
+                      handleMenuClick();
+                    }}
                   >
                     Dashboard
                   </button>
@@ -142,13 +212,16 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
                 <button
                   className="flex justify-between items-center px-4 py-2 rounded-md transition w-full text-sm hover:bg-gray-800"
                   onClick={() => setIsProducts(!isProducts)}
-                  
                 >
                   <div className="flex items-center gap-3">
                     <ShoppingBasket size={20} />
                     <span>Products</span>
                   </div>
-                  {isProducts ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+                  {isProducts ? (
+                    <ChevronUp size={18} />
+                  ) : (
+                    <ChevronDown size={18} />
+                  )}
                 </button>
 
                 {isProducts && (
@@ -156,10 +229,13 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
                     <Link to="/ProductList">
                       <button
                         className={`flex items-center px-4 py-2 rounded-md transition w-full text-sm ${
-                          location.pathname === "/ProductList" ? "bg-blue-500 text-black" : "hover:bg-gray-800"
-                        }`}                   
-                         onClick={() =>  { handleMenuClick();}}
-
+                          location.pathname === "/ProductList"
+                            ? "bg-blue-500 text-black"
+                            : "hover:bg-gray-800"
+                        }`}
+                        onClick={() => {
+                          handleMenuClick();
+                        }}
                       >
                         Products List
                       </button>
@@ -167,10 +243,13 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
                     <Link to="/AddProduct">
                       <button
                         className={`flex items-center px-4 py-2 rounded-md transition w-full text-sm ${
-                          location.pathname === "/AddProduct" ? "bg-blue-500 text-black" : "hover:bg-gray-800"
+                          location.pathname === "/AddProduct"
+                            ? "bg-blue-500 text-black"
+                            : "hover:bg-gray-800"
                         }`}
-                        onClick={() =>  { handleMenuClick();}}
-
+                        onClick={() => {
+                          handleMenuClick();
+                        }}
                       >
                         Add Product
                       </button>
@@ -178,10 +257,13 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
                     <Link to="/CategoryList">
                       <button
                         className={`flex items-center px-4 py-2 rounded-md transition w-full text-sm ${
-                          location.pathname === "/CategoryList" ? "bg-blue-500 text-black" : "hover:bg-gray-800"
+                          location.pathname === "/CategoryList"
+                            ? "bg-blue-500 text-black"
+                            : "hover:bg-gray-800"
                         }`}
-                        onClick={() =>  { handleMenuClick();}}
-
+                        onClick={() => {
+                          handleMenuClick();
+                        }}
                       >
                         Category List
                       </button>
@@ -210,13 +292,23 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
             <FileArchive size={20} />
             <span className={`${isOpen ? "block" : "hidden"}`}>Invoice</span>
           </button>
-          <button className="flex items-center gap-3 px-3 py-2 rounded-md transition hover:bg-gray-800 w-full">
-            <UsersRound size={20} />
-            <span className={`${isOpen ? "block" : "hidden"}`}>Users</span>
-          </button>
+          <Link to={"/Users"}>
+            <button
+              className={`flex items-center gap-3 px-3 py-2 rounded-md transition w-full ${
+                location.pathname === "/Users"
+                  ? "bg-blue-500 text-black"
+                  : "hover:bg-gray-800"
+              }`}
+            >
+              <UsersRound size={20} />
+              <span className={`${isOpen ? "block" : "hidden"}`}>Users</span>
+            </button>
+          </Link>
           <button className="flex items-center gap-3 px-3 py-2 rounded-md transition hover:bg-gray-800 w-full">
             <GlobeLock size={20} />
-            <span className={`${isOpen ? "block" : "hidden"}`}>Roles & Permissions</span>
+            <span className={`${isOpen ? "block" : "hidden"}`}>
+              Roles & Permissions
+            </span>
           </button>
           <button className="flex items-center gap-3 px-3 py-2 rounded-md transition hover:bg-gray-800 w-full">
             <BookOpenCheck size={20} />
@@ -224,15 +316,21 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
           </button>
           <button className="flex items-center gap-3 px-3 py-2 rounded-md transition hover:bg-gray-800 w-full">
             <KeyRound size={20} />
-            <span className={`${isOpen ? "block" : "hidden"}`}>Authentications</span>
+            <span className={`${isOpen ? "block" : "hidden"}`}>
+              Authentications
+            </span>
           </button>
           <button className="flex items-center gap-3 px-3 py-2 rounded-md transition hover:bg-gray-800 w-full">
             <WandSparkles size={20} />
-            <span className={`${isOpen ? "block" : "hidden"}`}>Wizard Examples</span>
+            <span className={`${isOpen ? "block" : "hidden"}`}>
+              Wizard Examples
+            </span>
           </button>
           <button className="flex items-center gap-3 px-3 py-2 rounded-md transition hover:bg-gray-800 w-full">
             <Package size={20} />
-            <span className={`${isOpen ? "block" : "hidden"}`}>Modal Examples</span>
+            <span className={`${isOpen ? "block" : "hidden"}`}>
+              Modal Examples
+            </span>
           </button>
           <button className="flex items-center gap-3 px-3 py-2 rounded-md transition hover:bg-gray-800 w-full">
             <WalletCards size={20} />
@@ -240,11 +338,15 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
           </button>
           <button className="flex items-center gap-3 px-3 py-2 rounded-md transition hover:bg-gray-800 w-full">
             <Webhook size={20} />
-            <span className={`${isOpen ? "block" : "hidden"}`}>User Interface</span>
+            <span className={`${isOpen ? "block" : "hidden"}`}>
+              User Interface
+            </span>
           </button>
           <button className="flex items-center gap-3 px-3 py-2 rounded-md transition hover:bg-gray-800 w-full">
             <ChevronsLeftRightEllipsis size={20} />
-            <span className={`${isOpen ? "block" : "hidden"}`}>Extended UI</span>
+            <span className={`${isOpen ? "block" : "hidden"}`}>
+              Extended UI
+            </span>
           </button>
           <button className="flex items-center gap-3 px-3 py-2 rounded-md transition hover:bg-gray-800 w-full">
             <Pi size={20} />
@@ -252,19 +354,27 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
           </button>
           <button className="flex items-center gap-3 px-3 py-2 rounded-md transition hover:bg-gray-800 w-full">
             <BookCopy size={20} />
-            <span className={`${isOpen ? "block" : "hidden"}`}>Form Elements</span>
+            <span className={`${isOpen ? "block" : "hidden"}`}>
+              Form Elements
+            </span>
           </button>
           <button className="flex items-center gap-3 px-3 py-2 rounded-md transition hover:bg-gray-800 w-full">
             <BookCopy size={20} />
-            <span className={`${isOpen ? "block" : "hidden"}`}>Form Layouts</span>
+            <span className={`${isOpen ? "block" : "hidden"}`}>
+              Form Layouts
+            </span>
           </button>
           <button className="flex items-center gap-3 px-3 py-2 rounded-md transition hover:bg-gray-800 w-full">
             <BookCopy size={20} />
-            <span className={`${isOpen ? "block" : "hidden"}`}>Form Wizard</span>
+            <span className={`${isOpen ? "block" : "hidden"}`}>
+              Form Wizard
+            </span>
           </button>
           <button className="flex items-center gap-3 px-3 py-2 rounded-md transition hover:bg-gray-800 w-full">
             <TicketCheck size={20} />
-            <span className={`${isOpen ? "block" : "hidden"}`}>Form Validation</span>
+            <span className={`${isOpen ? "block" : "hidden"}`}>
+              Form Validation
+            </span>
           </button>
           <button className="flex items-center gap-3 px-3 py-2 rounded-md transition hover:bg-gray-800 w-full">
             <TableCellsMerge size={20} />
@@ -280,7 +390,9 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
           </button>
           <button className="flex items-center gap-3 px-3 py-2 rounded-md transition hover:bg-gray-800 w-full">
             <MapPin size={20} />
-            <span className={`${isOpen ? "block" : "hidden"}`}>Leaflet Maps</span>
+            <span className={`${isOpen ? "block" : "hidden"}`}>
+              Leaflet Maps
+            </span>
           </button>
           <button className="flex items-center gap-3 px-3 py-2 rounded-md transition hover:bg-gray-800 w-full">
             <CircleHelp size={20} />
@@ -288,7 +400,9 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
           </button>
           <button className="flex items-center gap-3 px-3 py-2 rounded-md transition hover:bg-gray-800 w-full">
             <FileDigit size={20} />
-            <span className={`${isOpen ? "block" : "hidden"}`}>Documentation</span>
+            <span className={`${isOpen ? "block" : "hidden"}`}>
+              Documentation
+            </span>
           </button>
         </nav>
       </div>

@@ -65,28 +65,8 @@ button{
 }
 
 /* Input fields */
-input[type="text"] {
-  width: 100%;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  display: flex;
-  font-size: 16px;
-  border: 2px solid #ccc;
-  border-radius: 6px;
-  outline: none;
-  transition: border-color 0.3s ease-in-out;
-}
-input[type="number"] {
-  width: 100%;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  display: flex;
-  font-size: 16px;
-  border: 2px solid #ccc;
-  border-radius: 6px;
-  outline: none;
-  transition: border-color 0.3s ease-in-out;
-}
+
+
 
 input:focus {
   border-color: #007bff;

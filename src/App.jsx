@@ -10,6 +10,7 @@ import CategoryList from "./Pages/CategoryList.jsx";
 import Calendar from "./Pages/Calendar.jsx";
 import Login from "./Pages/Login.jsx";
 import Signup from "./Pages/Signup.jsx";
+import Users from "./Pages/Users.jsx";
 
 function ProtectedRoute({ children }) {
   const isAuthenticated = localStorage.getItem("isAuthenticated") === "true"; 
@@ -60,6 +61,7 @@ function Layout() {
             <Route path="/addproduct" element={<ProtectedRoute><AddProduct /></ProtectedRoute>} /> {/* Lowercase */}
             <Route path="/categorylist" element={<ProtectedRoute><CategoryList /></ProtectedRoute>} /> {/* Lowercase */}
             <Route path="/calendar" element={<ProtectedRoute><Calendar /></ProtectedRoute>} />
+            <Route path="/Users" element={<ProtectedRoute><Users /></ProtectedRoute>} />
             <Route path="*" element={<Navigate to="/login" replace />} />
           </Routes>
         </main>
