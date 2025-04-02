@@ -115,7 +115,7 @@ const Login = () => {
             </span>
           </div>
 
-          <div className="mt-4 flex">
+          <div className="mt-4 flex justify-center">
               <ReCAPTCHA
                 sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
                 onChange={handleCaptchaChange}

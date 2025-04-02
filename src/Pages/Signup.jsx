@@ -22,7 +22,7 @@ const Signup = () => {
   const navigate = useNavigate();
 
   const handleCaptchaChange = (value) => {
-    setCaptchaValue(value); // Set CAPTCHA token when user completes it
+    setCaptchaValue(value); 
   };
 
   const handleChange = (e) => {
@@ -145,7 +145,7 @@ const Signup = () => {
             </span>
           </div>
 
-          <div className="mt-4">
+          <div className="mt-4 flex justify-center">
             <ReCAPTCHA
               sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI" 
               onChange={handleCaptchaChange}
