@@ -16,10 +16,22 @@ const Users = () => {
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [formData, setFormData] = useState({
-    userId : null,
+    userId: null,
     username: "",
     email: "",
-    is_Active: "", // Will be 1 for Active, 0 for Inactive
+    User_Mobile_number : "",
+    User_Role: "",
+    is_Active: "",
+  });
+  const [notification, setNotification] = useState({
+    isOpen: false,
+    message: "",
+    type: "success",
+  });
+  const [confirmPopup, setConfirmPopup] = useState({
+    isOpen: false,
+    message: "",
+    onConfirm: null,
   });
   const itemsPerPage = 10;
 
@@ -56,44 +68,72 @@ const Users = () => {
     }
   };
 
-  // Fetch data on mount
   useEffect(() => {
     fetchUsers();
   }, []);
 
-  // Function to toggle user status
-  const handleStatusToggle = async (userId, currentStatus) => {
-    if(!window.confirm("Are you sure you want Change Status this user?")) return;
-    const newStatus = currentStatus === 1 ? 0 : 1;
-    try {
-      const response = await fetch(
-        "http://192.168.1.5/DBACCOUNT/dbaccounting-(quantity)/API/user_active_api.php",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            uid: userId,
-            Is_Active: newStatus,
-          }),
-        }
-      );
+  // Function to show notification
+  const showNotification = (message, type = "success") => {
+    setNotification({ isOpen: true, message, type });
+    setTimeout(() => {
+      setNotification({ isOpen: false, message: "", type: "success" });
+    }, 3000);
+  };
 
-      const data = await response.json();
-      if (data.status === "success") {
-        setUsers((prevUsers) =>
-          prevUsers.map((user) =>
-            user.User_Id === userId ? { ...user, Is_Active: newStatus } : user
-          )
-        );
-      } else {
-        throw new Error(data.message || "Failed to update Status");
+  // Function to show confirmation popup
+  const showConfirmPopup = (message, onConfirm) => {
+    setConfirmPopup({ isOpen: true, message, onConfirm });
+  };
+
+  // Function to handle confirmation
+  const handleConfirm = () => {
+    confirmPopup.onConfirm();
+    setConfirmPopup({ isOpen: false, message: "", onConfirm: null });
+  };
+
+  // Function to close confirmation popup
+  const handleCancelConfirm = () => {
+    setConfirmPopup({ isOpen: false, message: "", onConfirm: null });
+  };
+
+  // Function to toggle user status
+  const handleStatusToggle = (userId, currentStatus) => {
+    const newStatus = currentStatus == 1 ? 0 : 1;
+    showConfirmPopup(
+      `Are you sure you want to change this user status to ${newStatus == 1 ? "Active" : "Inactive"}?`,
+      async () => {
+        try {
+          const response = await fetch(
+            "http://192.168.1.5/DBACCOUNT/dbaccounting-(quantity)/API/user_active_api.php",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                uid: userId,
+                Is_Active: newStatus,
+              }),
+            }
+          );
+
+          const data = await response.json();
+          if (data.status === "success") {
+            setUsers((prevUsers) =>
+              prevUsers.map((user) =>
+                user.User_Id === userId ? { ...user, Is_Active: newStatus } : user
+              )
+            );
+            showNotification(`User status changed to ${newStatus == 1 ? "Active" : "Inactive"}`);
+          } else {
+            throw new Error(data.message || "Failed to update Status");
+          }
+        } catch (err) {
+          console.error("Error updating status:", err);
+          showNotification("Failed to update user status", "error");
+        }
       }
-    } catch (err) {
-      console.error("Error updating status:", err);
-      alert("Failed to update user status. Please try again.");
-    }
+    );
   };
 
   // Handle form input changes
@@ -105,10 +145,11 @@ const Users = () => {
     }));
   };
 
-  // Handle form submission
+  // Handle form submission (Add User)
   const handleAddUser = async () => {
     try {
-      const isActiveValue = formData.is_Active === "1" ? 1 : 0;
+      const isRole = formData.User_Role == "2" ? 2 : 1 ;
+      const isActiveValue = formData.is_Active == "1" ? 1 : 0;
       const response = await fetch(
         "http://192.168.1.5/DBACCOUNT/dbaccounting-(quantity)/API/display_user_api.php",
         {
@@ -119,6 +160,8 @@ const Users = () => {
           body: JSON.stringify({
             username: formData.username,
             email: formData.email,
+            User_Mobile_number: formData.User_Mobile_number,
+            User_Role: isRole,
             is_Active: isActiveValue,
           }),
         }
@@ -127,85 +170,98 @@ const Users = () => {
       const data = await response.json();
       if (data.status === "success") {
         setIsModalOpen(false);
-        setFormData({ username: "", email: "", is_Active: "" });
-        await fetchUsers(); // Refresh the user list
+        setFormData({ username: "", email: "",User_Mobile_number : "", is_Active: "", User_Role: "" });
+        await fetchUsers();
+        showNotification("User added successfully");
       } else {
         throw new Error(data.message || "Failed to add user");
       }
     } catch (err) {
-      alert(`Failed to add user: ${err.message}`);
+      showNotification(`Failed to add user: ${err.message}`, "error");
     }
   };
 
-  //delete the user
-
-  const handleDeleteUser = async (userid) => {
-    if(!window.confirm("Are you sure you want to delete this user?")) return;
-
+  // Delete the user
+  const handleDeleteUser = (userid) => {
+    showConfirmPopup("Are you sure want to  delete this user? ", async () => {
     try {
-        const response = await fetch("http://192.168.1.5/DBACCOUNT/dbaccounting-(quantity)/API/display_user_api.php" ,{
-            method : "DELETE",
-            headers: {
-                "Content-Type" : "application/json",
-            },
-            body: JSON.stringify({
-                User_Id : userid,
-            }),
-        });
-
-        const data = await response.json();
-        if(data.status === "success"){
-            setUsers((prevUsers) => prevUsers.filter((user) => user.User_Id != userid));
-        } else {
-            throw new Error(data.message || "Failed to delete user");
+      const response = await fetch(
+        "http://192.168.1.5/DBACCOUNT/dbaccounting-(quantity)/API/display_user_api.php",
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            User_Id: userid,
+          }),
         }
+      );
+
+      const data = await response.json();
+      if (data.status === "success") {
+        setUsers((prevUsers) => prevUsers.filter((user) => user.User_Id != userid));
+        showNotification("User deleted successfully");
+      } else {
+        throw new Error(data.message || "Failed to delete user");
+      }
     } catch (err) {
-        alert(`Failed to delete user : ${err.message}`);
+      showNotification(`Failed to delete user: ${err.message}`, "error");
     }
-  }
+  });
+};
 
-  //Update the User 
-
+  // Update the User
   const handleEditUser = (user) => {
     setFormData({
-        userId : user.User_Id,
-        username : user.Username,
-        email : user.Email,
-        is_Active : user.Is_Active.toString(),
+      userId: user.User_Id,
+      username: user.Username,
+      email: user.Email,
+      User_Mobile_number: user.User_Mobile_number,
+      User_Role: user.User_Role.toString(),
+      is_Active: user.Is_Active.toString(),
     });
     setIsEditMode(true);
     setIsModalOpen(true);
   };
-
-  //handle update User
-
-  const handleUpdateUser = async () => {
-    if(!window.confirm("Are you sure you want to Update this user?")) return;
-    try{
-        const isActiveValue = formData.is_Active === "1" ? 1 : 0;
-        const response = await fetch("http://192.168.1.7/DBACCOUNT/dbaccounting-(quantity)/API/display_user_api.php",{
-            method : "PUT",
-            headers : { "Content-Type" : "application/json" },
+  
+  // Handle update User
+  const handleUpdateUser = () => {
+    showConfirmPopup("Are you sure you want to update this user?", async () => {
+      try {
+        const isRole = formData.User_Role == "2" ? 2 : 1; 
+        const isActiveValue = formData.is_Active == "1" ? 1 : 0; 
+        const response = await fetch(
+          "http://192.168.1.5/DBACCOUNT/dbaccounting-(quantity)/API/display_user_api.php",
+          {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                userId : formData.userId,
-                username: formData.username,
-                email : formData.email,
-                is_Active: isActiveValue,
+              userId: formData.userId,
+              username: formData.username,
+              email: formData.email,
+              User_Mobile_number: formData.User_Mobile_number,
+              User_Role: isRole,
+              is_Active: isActiveValue,
             }),
-        });
-
+          }
+        );
+  
         const data = await response.json();
-        if(data.status === "success") {
-            setIsModalOpen(false);
-            setIsEditMode(false);
-            setFormData({userId : null, username : "", email : "", is_Active : ""});
-            await fetchUsers();
-        } else throw new Error (data.message || "Failed to update users");
-    } catch (err) {
-        alert(`Failed to update user : ${err.message}`);
-    }
+        if (data.status === "success") {
+          setIsModalOpen(false);
+          setIsEditMode(false);
+          setFormData({ userId: null, username: "", email: "",User_Mobile_number: "", is_Active: "", User_Role: "" });
+          await fetchUsers();
+          showNotification("User updated successfully");
+        } else {
+          throw new Error(data.message || "Failed to update user");
+        }
+      } catch (err) {
+        showNotification(`Failed to update user: ${err.message}`, "error");
+      }
+    });
   };
-
 
   const filteredData = users.filter((item) =>
     item.Username.toLowerCase().includes(search.toLowerCase())
@@ -235,7 +291,7 @@ const Users = () => {
               <input
                 type="text"
                 placeholder="Search Users"
-                className="pl-10 pr-4 py-2 border-1 rounded-lg"
+                className="pl-10 pr-4 py-2 border-1 rounded-lg outline-0 focus:ring-1 ring-blue-500"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
@@ -256,13 +312,15 @@ const Users = () => {
             <table className="w-full h-auto">
               <thead className="z-10 top-0">
                 <tr className="bg-gray-100 uppercase text-lg border-b-2 border-gray-400">
-                  <th className="py-2 px-4 text-left">User Id</th>
-                  <th className="py-2 px-4 text-left">User Role</th>
-                  <th className="py-2 px-4 text-left">Username</th>
-                  <th className="py-2 px-4 text-left">Email</th>
-                  <th className="py-2 px-4 text-left">Status</th>
-                  <th className="py-2 px-4 text-left">Date</th>
-                  <th className="py-2 px-4 text-left">Action</th>
+                  <th className="py-2 px-3 text-left no-wrap">User Id</th>
+                  <th className="py-2 px-3 text-left no-wrap">User Role</th>
+                  <th className="py-2 px-3 text-left">Username</th>
+                  <th className="py-2 px-3 text-left">Email</th>
+                  <th className="py-2 px-3 text-left">Mobile</th>
+                  <th className="py-2 px-3 text-left">Password</th>
+                  <th className="py-2 px-3 text-left">Status</th>
+                  <th className="py-2 px-3 text-left">Date</th>
+                  <th className="py-2 px-3 text-left">Action</th>
                 </tr>
               </thead>
               <tbody className="z-0">
@@ -271,29 +329,31 @@ const Users = () => {
                     key={item.User_Id}
                     className="border-b-1 border-b-gray-400 hover:bg-gray-200"
                   >
-                    <td className="py-3 px-4">{item.User_Id}</td>
-                    <td className="py-3 px-4">{item.User_Role}</td>
-                    <td className="py-3 px-4">{item.Username}</td>
-                    <td className="py-3 px-4">{item.Email}</td>
-                    <td className="py-3 px-4">
+                    <td className="py-3 px-3">{item.User_Id}</td>
+                    <td className="py-3 px-3">{item.User_Role}</td>
+                    <td className="py-3 px-3 no-wrap">{item.Username}</td>
+                    <td className="py-3 px-3">{item.Email}</td>
+                    <td className="py-3 px-3">{item.User_Mobile_number}</td>
+                    <td className="py-3 px-3">{item.User_Password}</td>
+                    <td className="py-3 px-3">
                       <button
                         onClick={() =>
                           handleStatusToggle(item.User_Id, item.Is_Active)
                         }
-                        className={`px-2 py-1 rounded-full text-white ${
+                        className={`px-3 py-1 rounded-full text-white ${
                           item.Is_Active == 1 ? "bg-green-500" : "bg-red-500"
                         }`}
                       >
                         {item.Is_Active == 1 ? "Active" : "Inactive"}
                       </button>
                     </td>
-                    <td className="py-3 px-4">{item.Date_time}</td>
-                    <td className="py-3 px-4">
+                    <td className="py-3 px-3 no-wrap">{item.Date_time}</td>
+                    <td className="py-3 px-3">
                       <div className="flex gap-2 text-blue-900 cursor-pointer">
                         <button>
-                          <Edit onClick={() => handleEditUser(item)}/>
+                          <Edit onClick={() => handleEditUser(item)} />
                         </button>
-                        <button onClick={() =>handleDeleteUser(item.User_Id)}>
+                        <button onClick={() => handleDeleteUser(item.User_Id)}>
                           <Trash2 className="text-red-500" />
                         </button>
                       </div>
@@ -304,7 +364,54 @@ const Users = () => {
             </table>
           </div>
 
-          {/* Add User Modal */}
+          {/* Notification Popup */}
+          {notification.isOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -50 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -50 }}
+              transition={{ duration: 0.3 }}
+              className={`fixed top-5 right-5 p-4 rounded-lg shadow-lg z-[10000] text-white ${
+                notification.type === "success" ? "bg-green-500" : "bg-red-500"
+              }`}
+            >
+              <p>{notification.message}</p>
+            </motion.div>
+          )}
+
+          {/* Confirmation Popup */}
+          {confirmPopup.isOpen && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              transition={{ duration: 0.3 }}
+              className="fixed inset-0 flex items-center justify-center z-[10000] p-4 bg-opacity-50"
+            >
+              <div className="bg-gray-200 p-6 rounded-lg shadow-lg w-full max-w-md">
+                <h3 className="text-lg font-semibold mb-4">Confirm Action</h3>
+                <p className="mb-6">{confirmPopup.message}</p>
+                <div className="flex justify-end gap-4">
+                  <button
+                    tabIndex={1}
+                    onClick={handleCancelConfirm}
+                    className="px-4 py-2 border rounded-md hover:bg-gray-200"
+                  >
+                    No
+                  </button>
+                  <button
+                    tabIndex={2}
+                    onClick={handleConfirm}
+                    className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                  >
+                    Yes
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          )}
+
+          {/* Add/Edit User Modal */}
           {isModalOpen && (
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
@@ -320,7 +427,7 @@ const Users = () => {
                 >
                   <X size={20} />
                 </button>
-                <h2 className="text-lg sm:text-xl font-semibold mb-4">
+                <h2 className="text-lg sm:text-2xl flex justify-center font-semibold mb-4">
                   {isEditMode ? "Edit User" : "Add New User"}
                 </h2>
 
@@ -332,7 +439,7 @@ const Users = () => {
                   value={formData.username}
                   onChange={handleInputChange}
                   placeholder="User Name"
-                  className="w-full border p-2 rounded-md mb-3 text-sm sm:text-base"
+                  className="w-full  p-2 rounded-md mb-3 text-sm sm:text-base border-gray-300 border-2 outline-0 focus:ring-1 ring-blue-200"
                 />
                 <input
                   required
@@ -341,14 +448,37 @@ const Users = () => {
                   value={formData.email}
                   onChange={handleInputChange}
                   placeholder="Email"
-                  className="w-full border p-2 rounded-md mb-3 text-sm sm:text-base"
+                  className="w-full  p-2 rounded-md mb-3 text-sm sm:text-base  border-gray-300 border-2 outline-0 focus:ring-1 ring-blue-200"
                 />
+                <input
+                  required
+                  type="tel"
+                  name="User_Mobile_number"
+                  value={formData.User_Mobile_number}
+                  onChange={handleInputChange}
+                  placeholder="Mobile"
+                  className="w-full  p-2 rounded-md mb-3 text-sm sm:text-base  border-gray-300 border-2 outline-0 focus:ring-1 ring-blue-200"
+                />
+                <select
+                  required
+                  name="User_Role"
+                  value={formData.User_Role}
+                  onChange={handleInputChange}
+                  className="w-full border-2 p-2 border-gray-300 rounded-md mb-3 text-sm sm:text-base outline-0 focus:ring-2 ring-blue-500"
+                >
+                  <option value="" disabled >
+                    Select Role
+                  </option>
+                  <option value="1">Admin</option>
+                  <option value="2">Users</option>
+                </select>
+
                 <select
                   required
                   name="is_Active"
                   value={formData.is_Active}
                   onChange={handleInputChange}
-                  className="w-full border-2 p-2 border-gray-300 rounded-md mb-3 text-sm sm:text-base"
+                  className="w-full border-2 p-2 border-gray-300 rounded-md mb-3 text-sm sm:text-base outline-0 focus:ring-2 ring-blue-500"
                 >
                   <option value="" disabled>
                     Select Status
@@ -366,7 +496,7 @@ const Users = () => {
                     Cancel
                   </button>
                   <button
-                    onClick={isEditMode ? handleUpdateUser : handleAddUser }
+                    onClick={isEditMode ? handleUpdateUser : handleAddUser}
                     className="w-full sm:w-auto px-4 py-2 bg-[rgba(66,80,134,1)] text-white rounded-md hover:bg-blue-900 text-sm sm:text-base"
                   >
                     {isEditMode ? "Update User" : "Add User"}
@@ -406,7 +536,7 @@ const Users = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div>  
     </div>
   );
 };

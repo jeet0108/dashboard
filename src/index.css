@@ -138,3 +138,7 @@ input:focus {
 .rbc-active {
   background-color: #d4a017; /* Highlight active view */
 }
+
+.no-wrap {
+  white-space: nowrap;
+}
